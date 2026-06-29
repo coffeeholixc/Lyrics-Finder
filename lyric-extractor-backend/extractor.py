@@ -102,5 +102,6 @@ def get_chinese_lyrics(video_url: str) -> str:
 
 if __name__ == "__main__":
     youtube_url = input("Enter YouTube URL: ")
-    lyrics = get_chinese_lyrics(youtube_url)
+    # lyrics = get_chinese_lyrics(youtube_url)
+    lyrics = get_captions(youtube_url)
     print(lyrics)
