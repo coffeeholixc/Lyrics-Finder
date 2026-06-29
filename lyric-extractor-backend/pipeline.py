@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from extractor import get_chinese_lyrics
 
 load_dotenv()
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Schema for lyrics data (child blueprint)
@@ -19,7 +18,7 @@ class LyricsResponse(BaseModel):
     lyrics: list[LyricsLine]
 
 # Function to get lyrics from OpenAI API
-def process_lyrics_with_ai(raw_lyrics:str) -> LyricsResponse:
+def process_caption_with_ai(raw_lyrics:str) -> LyricsResponse:
     """
     Sends the raw lyrics to the OpenAI API for processing and 
     returns the structured JSON output containing the lyrics in 
@@ -29,8 +28,8 @@ def process_lyrics_with_ai(raw_lyrics:str) -> LyricsResponse:
     print("Sending lyrics to OpenAI API for processing...")
 
     system_prompt = (
-        "You are an expert translator and linguist. Take the provided raw Chinese lyrics."
-        "For every distinct line, translate it into English and provide the correct Pinyin"
+        "You are an expert translator and bilingual music editor. Take the provided raw Chinese lyrics."
+        "For every line, translate it into English and provide the correct Pinyin"
         "Pay careful attention to the context and meaning of the lyrics, especially to the polyphonic characters (多音字) and tone sandhi to ensure the Pinyin matches"
         "Return the results strictly matching the requested JSON schema"
     )
@@ -46,22 +45,63 @@ def process_lyrics_with_ai(raw_lyrics:str) -> LyricsResponse:
     )
     return completion.choices[0].message.parsed
 
+def process_description_with_ai(raw_description:str) -> LyricsResponse:
+    """
+    Sends the raw description to the OpenAI API for processing and 
+    returns the structured JSON output containing the lyrics in 
+    Hanzi, Pinyin, and English translation.
+    """
+
+    print("Sending description to OpenAI API for processing...")
+
+    system_prompt = (
+        "You are an expert bilingual music editor and localization engine.\n"
+        "You will be given a raw, cluttered YouTube video description box. Your tasks are:\n"
+        "1. Locate and isolate the actual Chinese song lyrics (Hanzi).\n"
+        "2. Strip away all marketing links, social media handles, sponsor promotions, and audio production credits.\n"
+        "3. Step through the clean Chinese lyrics line-by-line.\n"
+        "4. For every line, keep the original Hanzi, generate its accurate phonetic Pinyin (handling polyphonic characters and tone sandhi in context), "
+        "and translate that specific line into natural English.\n"
+        "Output the array strictly matching the JSON format structure provided."
+    )
+
+    completion = client.beta.chat.completions.parse(
+        model = "gpt-4o",
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": raw_description}
+        ],
+        response_format = LyricsResponse,
+    )
+    return completion.choices[0].message.parsed
+
 # TESTING MAIN FUNCTION
 if __name__ == "__main__":
-    youtube_url = "https://www.youtube.com/watch?v=8MG--WuNW1Y&list=RD8MG--WuNW1Y&start_radio=1"
+    # testing
+    #youtube_url = "https://www.youtube.com/watch?v=8MG--WuNW1Y&list=RD8MG--WuNW1Y&start_radio=1"
+    youtube_url = input("Enter YouTube URL: ")
 
     # Running scraper
-    raw_text = get_chinese_lyrics(youtube_url)
+    raw_text = get_chinese_lyrics(youtube_url) # returns a dictionary with keys "transcript" and "description"
+
+    structured_data = None
 
     # Running Ai pipeline
-    if "Error" not in raw_text:
-        structured_data = process_lyrics_with_ai(raw_text)
+    if raw_text["transcript"] is not None:
+        structured_data = process_caption_with_ai(raw_text["transcript"])
+    elif raw_text["description"] is not None:
+        structured_data = process_description_with_ai(raw_text["description"])
+    else:
+        print("No Chinese lyrics found in either captions or description.")
+        structured_data = None
 
-        print("\nStructured Lyrics Data:")
-        for item in structured_data.lyrics: #note for self: object.attribute. structured_data is an instance of LyricsResponse, which has a list of LyricsLine objects in the lyrics attribute
+    # Output the structured data
+    if structured_data is not None:
+        print("Structured Lyrics Data:")
+        for item in structured_data.lyrics:
             print(f"Hanzi: {item.hanzi}") 
             print(f"Pinyin: {item.pinyin}") 
             print(f"English: {item.english}")
             print("-" * 20)
     else:
-        print(raw_text) 
+        print("No structured data to display.")
