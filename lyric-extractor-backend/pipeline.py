@@ -48,7 +48,7 @@ def process_lyrics_with_ai(raw_lyrics:str) -> LyricsResponse:
 
 # TESTING MAIN FUNCTION
 if __name__ == "__main__":
-    youtube_url = "https://www.youtube.com/watch?v=IWB0xk9lR88&list=RDIWB0xk9lR88&start_radio=1"
+    youtube_url = "https://www.youtube.com/watch?v=8MG--WuNW1Y&list=RD8MG--WuNW1Y&start_radio=1"
 
     # Running scraper
     raw_text = get_chinese_lyrics(youtube_url)
