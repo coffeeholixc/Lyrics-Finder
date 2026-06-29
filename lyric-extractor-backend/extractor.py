@@ -31,13 +31,14 @@ def get_captions(youtube_url: str) -> str:
         str: The Chinese lyrics.
     """
     video_id = extract_video_id(youtube_url)
-    data = YouTubeTranscriptApi.get_transcript(video_id, languages=['zh-Hans', 'zh-Hant', 'zh', 'zh-CN', 'zh-TW'])
+    ytt_api = YouTubeTranscriptApi()
+    data = ytt_api.fetch(video_id, languages=['zh-Hans', 'zh-Hant', 'zh', 'zh-CN', 'zh-TW'])
 
-    full_lyrics = []
-    for entry in data:
-        full_lyrics.append(entry['text'])
-
-    return "\n".join(full_lyrics)
+    # Extract ONLY the text from the FetchedTranscript object snippets
+    text_lines = [snippet.text for snippet in data.snippets]
+        
+    # Join lines with a newline character for a clean lyrics layout
+    return "\n".join(text_lines)
 
     
 def get_description(video_url: str) -> str:
@@ -102,6 +103,6 @@ def get_chinese_lyrics(video_url: str) -> str:
 
 if __name__ == "__main__":
     youtube_url = input("Enter YouTube URL: ")
-    # lyrics = get_chinese_lyrics(youtube_url)
-    lyrics = get_captions(youtube_url)
+    lyrics = get_chinese_lyrics(youtube_url)
+    # lyrics = get_captions(youtube_url)
     print(lyrics)
