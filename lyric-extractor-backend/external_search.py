@@ -74,8 +74,8 @@ def fetch_lyrics_from_netease(song_id: int) -> Optional[str]:
 
 if __name__ == "__main__":
     # Example usage
-    song_title = "如果呢"
-    song_artist = "郑润泽"
+    song_title = "爱不可求"
+    song_artist = "en"
     song_id = search_netease_for_song_id(song_title, song_artist)
     song_lyrics = fetch_lyrics_from_netease(song_id)
     if song_lyrics:

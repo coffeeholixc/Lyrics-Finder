@@ -82,14 +82,7 @@ def process_description_with_ai(raw_description:str) -> LyricsResponse:
     )
     return completion.choices[0].message.parsed
 
-# TESTING MAIN FUNCTION
-if __name__ == "__main__":
-    # testing
-    #youtube_url = "https://www.youtube.com/watch?v=8MG--WuNW1Y&list=RD8MG--WuNW1Y&start_radio=1"
-    youtube_url = input("Enter YouTube URL: ")
-
-    # Running scraper
-    raw_text = get_chinese_lyrics(youtube_url) # returns a dictionary with keys "transcript" and "description"
+def orchestrate_lyrics_extraction(raw_text: dict) -> LyricsResponse:
     structured_data = None
 
     # Running pipeline
@@ -101,7 +94,14 @@ if __name__ == "__main__":
     
     if (not structured_data or not structured_data.lyrics) and raw_text.get("description"):
         try:
-            structured_data = process_description_with_ai(raw_text["description"])
+            temp_lyrics = process_description_with_ai(raw_text["description"])
+            if temp_lyrics and len(temp_lyrics.lyrics) >= 3:
+                structured_data = temp_lyrics
+                print("Lyric block exists.")
+            else:
+                print("Lyric block does not exist in description.")
+                structured_data = None
+            
         except Exception as e:
             print(f"Description processing failed: {e}")   
     
@@ -127,10 +127,23 @@ if __name__ == "__main__":
             else:
                 print("Missing video metadata fields.")
 
+    return structured_data
+
+
+# TESTING MAIN FUNCTION
+if __name__ == "__main__":
+    # testing
+    #youtube_url = "https://www.youtube.com/watch?v=8MG--WuNW1Y&list=RD8MG--WuNW1Y&start_radio=1"
+    youtube_url = input("Enter YouTube URL: ")
+
+    # Running scraper
+    raw_text = get_chinese_lyrics(youtube_url) # returns a dictionary with keys "transcript" and "description"
+    final_lyrics = orchestrate_lyrics_extraction(raw_text)
+
     # Output the structured data
-    if structured_data is not None:
+    if final_lyrics is not None:
         print("Structured Lyrics Data:")
-        for item in structured_data.lyrics:
+        for item in final_lyrics.lyrics:
             print(f"Hanzi: {item.hanzi}") 
             print(f"Pinyin: {item.pinyin}") 
             print(f"English: {item.english}")
