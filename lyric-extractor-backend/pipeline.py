@@ -1,3 +1,5 @@
+# Uses OpenAI API to process the raw captions or description text and return structured lyrics data in JSON format.
+
 import os
 import re
 from openai import OpenAI

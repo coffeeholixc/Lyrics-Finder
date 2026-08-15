@@ -1,3 +1,4 @@
+# Looks for lyrics in NetEase Music (网易云音乐) using the song title and artist name. It first searches for the song ID and then fetches the lyrics using that ID.
 # Entirely made by Gemini. I struggled with finding my own solutions. At first, I tried KKBOX and DuckDuckGo but I was hit with either Error 202 (Bot Block) or 403 (Copyright Lockdown)
 # So I had Gemini helped and it introduced me to NetEase Music. I was able to find the song ID and lyrics using their API.
 

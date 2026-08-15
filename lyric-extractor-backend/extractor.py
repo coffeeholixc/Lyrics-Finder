@@ -1,3 +1,5 @@
+# Extracts Chinese lyrics from YouTube videos, either from the closed captions (CC) or the video description.
+
 import re
 import yt_dlp
 from typing import Dict, Any, Optional
