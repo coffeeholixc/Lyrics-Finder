@@ -1,68 +1,79 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
 export default function App() {
-  const [url, setUrl] = useState('');
-  const [data, setData] = useState(null);
+// 1. State Management
+  const [url, setURL] = useState('');
+  const [Lyrics, setLyrics] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
 
-  const handleExtract = async (e) => {
+// 2. Fetch Lyrics Function
+  const handleFetchLyrics = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setData(null);
+    setError(null);
+    setLyrics(null);
 
     try {
       const response = await fetch('http://127.0.0.1:8000/extract-lyrics', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ video_url: url }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({video_url: url}),
       });
 
-      if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
+      if(!response.ok){
+        throw new Error(`Server error: ${response.status}`);
       }
 
-      const result = await response.json();
-      setData(result);
-    } catch (err) {
-      setError(err.message || 'Failed to extract lyrics');
-    } finally {
-      setLoading(false);
-    }
-  };
+      const data = await response.json();
+      setLyrics(data);
 
+    } catch (err) {
+      setError(err.message || 'An error occurred while fetching lyrics.');
+    } finally {
+    setLoading(false);
+  }
+};
+
+// 2. User Interface
   return (
-    <div style={{ maxWidth: '600px', margin: '40px auto', fontFamily: 'sans-serif' }}>
-      <h2>Chinese Lyrics Extractor</h2>
-      
-      <form onSubmit={handleExtract}>
+    <div>
+      <h2>EnHanPin Lyrics</h2>
+
+      {/* Input Form */}
+      <form onSubmit={handleFetchLyrics}>
         <input
-          type="url"
-          placeholder="Paste YouTube URL..."
+          type = "text"
+          placeholder = "Enter Youtube URL"
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={(e) => setURL(e.target.value)}
           required
-          style={{ width: '70%', padding: '8px', marginRight: '8px' }}
-        />
-        <button type="submit" disabled={loading} style={{ padding: '8px 16px' }}>
-          {loading ? 'Processing...' : 'Extract'}
+          style={{ width: '70%', padding: '8px', marginRight: '8px'}}
+          />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Processing...' : 'Get Lyrics'}
         </button>
       </form>
 
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {/* Error Message */}
+      {error && <p style={{color: 'red'}}>Error: {error}</p>}
 
-      {data && (
-        <div style={{ marginTop: '24px' }}>
-          <h3>Lyrics Result</h3>
-          {data.lyrics?.map((line, index) => (
-            <div key={index} style={{ marginBottom: '12px' }}>
-              <p style={{ margin: 0, fontWeight: 'bold' }}>{line.hanzi}</p>
-              <p style={{ margin: 0, color: '#555' }}>{line.pinyin}</p>
-              <p style={{ margin: 0, color: '#888', italic: 'true' }}>{line.english}</p>
-            </div>
-          ))}
+      {/* Lyrics Display */}
+      {Lyrics && (
+      <div style={{ marginTop: '20px'}}>
+        <h3>{Lyrics.title || 'Lyrics Output'}</h3>
+        {Lyrics.lyrics?.map((line, index) => (
+
+         <div key={index} style={{ marginBottom: '12px'}}>
+          <p style={{ fontWeight: 'bold', margin: '0'}}>{line.english}</p>
+          <p style={{ fontWeight: 'bold', margin: '0'}}>{line.hanzi}</p>
+          <p style={{ fontWeight: 'bold', margin: '0'}}>{line.pinyin}</p>
         </div>
+
+        ))}
+      </div>
       )}
     </div>
   );

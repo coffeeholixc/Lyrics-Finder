@@ -54,6 +54,7 @@ class LyricsRequest(BaseModel):
     description="This endpoint takes a YouTube video URL and returns structured lyrics data, including Hanzi, Pinyin, and English translations. It uses a multi-step pipeline with fallback mechanisms.",
 )
 
+# Pydantic schema model
 async def extract_lyrics(
     payload: LyricsRequest, db: Session = Depends(get_session)
     ):  
