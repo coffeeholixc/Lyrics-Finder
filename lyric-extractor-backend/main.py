@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, status, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
 from sqlmodel import Session, select
 from database import get_session, init_db
@@ -23,6 +24,21 @@ app = FastAPI(
     description="A pipeline to extract lyrics from YouTube videos with fallback engines (external search on NetEase Music)",
     version="1.0.0",
     lifespan =lifespan,
+)
+
+# Below 2 allows CORS in FastAPI.
+# Allow requests from React development server (CORS). Because By default, browser security blocks React from making requests to fastAPI.
+origins = [
+    "http://localhost:5173",  # React development server
+    "http://127.0.0.1:5173",  # React development server
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Define expected JSON payload incoming request structure
