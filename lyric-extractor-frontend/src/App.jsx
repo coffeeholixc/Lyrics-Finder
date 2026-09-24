@@ -77,10 +77,9 @@ export default function App() {
             {/* If loading is true, show "Processing...", otherwise show "Search Lyrics" */}
           </button>
         </form>
-      </div>
-
 {/* Error Message */}
-      {error && <p style={{color: 'red'}}>Error: {error}</p>}
+        {error && <p className="text-red-500 text-center">Error: {error}</p>}
+      </div>
 
 {/* Video Placeholder */}
     <div>
