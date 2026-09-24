@@ -37,44 +37,111 @@ export default function App() {
   }
 };
 
-// 2. User Interface
+// 3. User Interface
   return (
-    <div>
-      <h2>EnHanPin Lyrics</h2>
+    <div className="mx-auto">
+{/* Header Web App Name */}
+      <header  className = "text-center">
+        <h1 className = "text-5xl font-bold mt-2 mb-12">Han/Pin/Eng Lyric</h1>
+      </header>
 
-      {/* Input Form */}
-      <form onSubmit={handleFetchLyrics}>
-        <input
-          type = "text"
-          placeholder = "Enter Youtube URL"
-          value={url}
-          onChange={(e) => setURL(e.target.value)}
-          required
-          style={{ width: '70%', padding: '8px', marginRight: '8px'}}
-          />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Processing...' : 'Get Lyrics'}
-        </button>
-      </form>
+{/* Input Form */}
+      <div className="w-full md:w-3/4 lg:w-1/2 mx-auto">
+        <form onSubmit={handleFetchLyrics} className="relative group">
+          {/* Search Bar */}
+          <input
+            type = "text"
+            placeholder = "Enter Youtube URL"
+            value={url}
+            onChange={(e) => setURL(e.target.value)}
+            required
+            className="w-full px-5 py-3.5 pr-12 text-sm text-gray-900 placeholder:text-gray-400 bg-white border border-gray-200 rounded-full shadow-sm focus:ring-2 focus:ring-gray-200 focus:border-gray-300 transition-all focus:outline-none"
+            />
+          {/* Search Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="absolute right-4 top-1/2 -translate-y-1/2 "
+          >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                strokeWidth={2} 
+                stroke="currentColor" 
+                className="w-5 h-5"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+            {/* {loading ? 'Processing...' : 'Search Lyrics'}  */}
+            {/* If loading is true, show "Processing...", otherwise show "Search Lyrics" */}
+          </button>
+        </form>
+      </div>
 
-      {/* Error Message */}
+{/* Error Message */}
       {error && <p style={{color: 'red'}}>Error: {error}</p>}
 
-      {/* Lyrics Display */}
-      {Lyrics && (
-      <div style={{ marginTop: '20px'}}>
-        <h3>{Lyrics.title || 'Lyrics Output'}</h3>
-        {Lyrics.lyrics?.map((line, index) => (
-
-         <div key={index} style={{ marginBottom: '12px'}}>
-          <p style={{ fontWeight: 'bold', margin: '0'}}>{line.english}</p>
-          <p style={{ fontWeight: 'bold', margin: '0'}}>{line.hanzi}</p>
-          <p style={{ fontWeight: 'bold', margin: '0'}}>{line.pinyin}</p>
+{/* Video Placeholder */}
+    <div>
+        <div className="bg-gray-100 border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center shadow-inner w-1/2 mx-auto mt-4 mb-4 h-48">
+          <div className="text-center text-gray-400">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 10 10" 
+              strokeWidth={1} 
+              stroke="currentColor" 
+              className="w-16 h-16 mx-auto mb-4"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+            </svg>
+            <p className="font-medium text-lg">YouTube Video Placeholder</p>
+            <p className="text-sm mt-1">Video embeds here</p>
+          </div>
         </div>
+    </div>
 
-        ))}
-      </div>
-      )}
+
+{/* Lyrics Display */}
+{/* The 3 Lyric Blocks will ONLY show once lyrics data exists */}
+{Lyrics && (
+  <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+    
+    {/* 1. Header Row */}
+    <div className="grid grid-cols-3 bg-gray-50/80 border-b border-gray-100 p-4 font-bold text-xs text-gray-400 uppercase tracking-widest text-center md:text-left">
+      <div>Hanzi (漢字)</div>
+      <div>Pinyin (拼音)</div>
+      <div>English (英文)</div>
+    </div>
+
+    {/* 2. Lyric Rows Container */}
+    <div className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+      {Lyrics.lyrics?.map((line, index) => (
+        <div 
+          key={index} 
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 items-center hover:bg-indigo-50/30 transition-colors"
+        >
+          {/* Column 1: Hanzi */}
+          <div className="text-gray-950 font-medium text-base md:text-lg leading-snug">
+            {line.hanzi}
+          </div>
+
+          {/* Column 2: Pinyin */}
+          <div className="text-indigo-600 font-medium text-sm md:text-base leading-snug">
+            {line.pinyin}
+          </div>
+
+          {/* Column 3: English */}
+          <div className="text-gray-600 italic text-sm leading-snug">
+            {line.english}
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+)}
     </div>
   );
 }
