@@ -82,7 +82,7 @@ export default function App() {
       </div>
 
 {/* Video Placeholder */}
-    <div>
+    {/* <div>
         <div className="bg-gray-100 border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center shadow-inner w-1/2 mx-auto mt-4 mb-4 h-48">
           <div className="text-center text-gray-400">
             <svg 
@@ -99,7 +99,7 @@ export default function App() {
             <p className="text-sm mt-1">Video embeds here</p>
           </div>
         </div>
-    </div>
+    </div> */}
 
 
 {/* Lyrics Display */}
