@@ -42,11 +42,11 @@ export default function App() {
     <div className="mx-auto">
 {/* Header Web App Name */}
       <header  className = "text-center">
-        <h1 className = "text-5xl font-bold mt-2 mb-12">Han/Pin/Eng Lyric</h1>
+        <h1 className = "text-5xl font-bold mt-30 mb-30">Han/Pin/Eng Lyric</h1>
       </header>
 
 {/* Input Form */}
-      <div className="w-full md:w-3/4 lg:w-1/2 mx-auto">
+      <div className="w-full md:w-3/4 lg:w-1/2 mx-auto mb-24">
         <form onSubmit={handleFetchLyrics} className="relative group">
           {/* Search Bar */}
           <input
