@@ -50,6 +50,7 @@ def get_description(video_url: str) -> str:
     """
 
     ydl_opts = {
+        'cookiefile': 'cookies.txt',  # Path to your cookies.txt file
         'quiet': True,
         'no_warnings': True,
         'skip_download': True
