@@ -54,18 +54,21 @@ def get_description(video_url: str) -> str:
     """
 
     ydl_opts = {
-        'cookiefile': COOKIE_PATH,  # Path to your cookies.txt file
         'quiet': True,
         'no_warnings': True,
-        'skip_download': True
+        'skip_download': True,
+        'format': 'bestaudio/best/worst',  # Fallback formats to avoid stream errors
     }
+
+    if os.path.exists(COOKIE_PATH):
+            ydl_opts['cookiefile'] = COOKIE_PATH
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info_dict = ydl.extract_info(video_url, download=False)
             return { 
                 "title": info_dict.get('title', ""),
-                "artist": info_dict.get('uploader', ""),
+                "artist": info_dict.get('artist') or info_dict.get('uploader', ""),
                 "description": info_dict.get('description',"")
             }
         except Exception as e:
