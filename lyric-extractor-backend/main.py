@@ -31,6 +31,7 @@ app = FastAPI(
 origins = [
     "http://localhost:5173",  # React development server
     "http://127.0.0.1:5173",  # React development server
+    "https://lyrics-finder-coffeeholixcc.vercel.app",        # Main production domain
     "https://lyrics-finder-git-main-coffeeholixcc.vercel.app", # free Vercel URL
 ]
 
