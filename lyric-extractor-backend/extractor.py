@@ -1,9 +1,13 @@
 # Extracts Chinese lyrics from YouTube videos, either from the closed captions (CC) or the video description.
 
+import os
 import re
 import yt_dlp
 from typing import Dict, Any, Optional
 from youtube_transcript_api import YouTubeTranscriptApi
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+COOKIE_PATH = os.path.join(BASE_DIR, "cookies.txt")
 
 def extract_video_id(url: str) -> str:
     """
@@ -50,7 +54,7 @@ def get_description(video_url: str) -> str:
     """
 
     ydl_opts = {
-        'cookiefile': 'cookies.txt',  # Path to your cookies.txt file
+        'cookiefile': COOKIE_PATH,  # Path to your cookies.txt file
         'quiet': True,
         'no_warnings': True,
         'skip_download': True
