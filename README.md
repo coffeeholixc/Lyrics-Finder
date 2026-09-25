@@ -56,7 +56,7 @@ Test it out: https://lyrics-finder-coffeeholixcc.vercel.app/
 
 ## My Engineering Road Map
 
-<img width="1004" height="584" alt="HanPinEn drawio" src="https://github.com/user-attachments/assets/10c7c45d-6d32-434f-87bf-a2a3fb3aacaf" />
+<img width="1353" height="784" alt="HanPinEn Architecture Diagram" src="https://github.com/user-attachments/assets/103c8638-7662-4c6b-a710-36037e520ddb" />
 
 ### Phase 1: Scraping CC/Description from Youtube Link. Fallback to NetEast.
 **Goal:** Create a data retrieval engine that extracts raw Chinese captions or description text from YouTube videos, with an automated fallback to the NetEase Cloud Music API when native subtitles are absent.
