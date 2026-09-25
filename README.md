@@ -56,7 +56,7 @@ Test it out: https://lyrics-finder-coffeeholixcc.vercel.app/
 
 ## My Engineering Road Map
 
-[insert Website Architecture Picture]
+<img width="1353" height="784" alt="HanPinEn Architecture Diagram" src="https://github.com/user-attachments/assets/103c8638-7662-4c6b-a710-36037e520ddb" />
 
 ### Phase 1: Scraping CC/Description from Youtube Link. Fallback to NetEast.
 **Goal:** Create a data retrieval engine that extracts raw Chinese captions or description text from YouTube videos, with an automated fallback to the NetEase Cloud Music API when native subtitles are absent.
@@ -104,15 +104,17 @@ Test it out: https://lyrics-finder-coffeeholixcc.vercel.app/
 **Goal:** Deploy onto cloud platforms for public use. 
 **Infrastructure:** Use Vercel (Frontend) and Render (Backend)
 
+## Bugs and Troubleshooting Log
+
+1. (25/09/2026) There were some error on passing valid cookies because YouTube flags requests from cloud hosting IP addresses (like Render) as automated bots. Solution: Add a search engine by artist and song name so yt-dlp don't always have to default to empty or users dont always need to have a YouTube URL to get around.
 
 ## Limitation and Future Work
 There are *no* restrictions to only accept Chinese songs. So, even if the users submit other language songs, the website still generates Chinese lyrics (given the constraints I had to only extract Traditional Chinese lyrics for now) and consequently, the chinese-to-pinyin and the chinese-to-english. 
 
 In the future, this project may display Japanese Kanji and Korean Hangul in addition to its romanization and translation. As well as, a toggle between simplified and traditional Chinese. The next update will come when the passion to learn a language re-ignites!
 
-More features:
-1. UX Design: add a loading/processing lyrics/fetching lyrics state to update the user while they wait
-2. Add a search engine based on the database so users don't always have to have the YouTube URL
+Future features/chores:
+1. Better User Experience: add a loading/processing lyrics/fetching lyrics state to update the user while they wait
 
 ## Conclusion/ Reflection
 For how simple the website looks, it took longer than expected to complete (about 3 months until the first deployment). This was my first time juggling fulltime work while doing a side-project. However, when you put in the dedication and the action, a little goes a long way!
