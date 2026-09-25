@@ -47,7 +47,10 @@ This project uses OpenAI as an intelligent data layer. Instead of writing custom
 ---
 
 ## Result
-[Insert Picture]
+Test it out: https://lyrics-finder-coffeeholixcc.vercel.app/
+(But get ready with a Youtube URL to a Chinese song)
+
+<img width="3764" height="1842" alt="image" src="https://github.com/user-attachments/assets/078855b6-fc28-49c3-8b63-a60f5e64652b" />
 
 ---
 
@@ -107,6 +110,9 @@ There are *no* restrictions to only accept Chinese songs. So, even if the users 
 
 In the future, this project may display Japanese Kanji and Korean Hangul in addition to its romanization and translation. As well as, a toggle between simplified and traditional Chinese. The next update will come when the passion to learn a language re-ignites!
 
+More features:
+1. UX Design: add a loading/processing lyrics/fetching lyrics state to update the user while they wait
+2. Add a search engine based on the database so users don't always have to have the YouTube URL
 
 ## Conclusion/ Reflection
 For how simple the website looks, it took longer than expected to complete (about 3 months until the first deployment). This was my first time juggling fulltime work while doing a side-project. However, when you put in the dedication and the action, a little goes a long way!
