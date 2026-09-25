@@ -15,8 +15,8 @@ export default function App() {
     setLyrics(null);
 
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'; // Use the environment variable or fallback to localhost
-      const response = await fetch(`${API_BASE_URL}/extract-lyrics`, {
+      // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'; // Use the environment variable or fallback to localhost
+      const response = await fetch(`https://enhanpin-backend.onrender.com/extract-lyrics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
