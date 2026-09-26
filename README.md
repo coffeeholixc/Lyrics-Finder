@@ -47,11 +47,20 @@ This project uses OpenAI as an intelligent data layer. Instead of writing custom
 ---
 
 ## Result
-Test it out: https://lyrics-finder-coffeeholixcc.vercel.app/
-(But get ready with a Youtube URL to a Chinese song)
 
 <img width="3764" height="1842" alt="image" src="https://github.com/user-attachments/assets/078855b6-fc28-49c3-8b63-a60f5e64652b" />
 
+## Getting Started
+Test it out: https://lyrics-finder-coffeeholixcc.vercel.app/
+(But get ready with a Youtube URL to a Chinese song)
+
+#### How to run locally?
+1. Open a terminal and navigate to backend folder. `cd lyric-extractor-backend`
+2. To install the dependencies, run `pip install -r requirements.txt` in your terminal.
+3. Start the backend development server: `uvicorn main:app --reload`
+4. Open a second terminal and navigate to frontend folder. `cd lyric-extractor-frontend`
+5. Run `npm install` in your terminal.
+6. Start the frontend development server: `npm run dev`
 ---
 
 ## My Engineering Road Map
@@ -106,7 +115,7 @@ Test it out: https://lyrics-finder-coffeeholixcc.vercel.app/
 
 ## Bugs and Troubleshooting Log
 
-1. (25/09/2026) There were some error on passing valid cookies because YouTube flags requests from cloud hosting IP addresses (like Render) as automated bots. Solution: Add a search engine by artist and song name so yt-dlp don't always have to default to empty or users dont always need to have a YouTube URL to get around.
+1. (25/09/2026) There were some error on passing valid cookies because YouTube flags requests from cloud hosting IP addresses (like Render) as automated bots. Solution: Add a search engine by artist and song name so yt-dlp don't always have to default to empty or users don't always need to have a YouTube URL to get around [work in progress].
 
 ## Limitation and Future Work
 There are *no* restrictions to only accept Chinese songs. So, even if the users submit other language songs, the website still generates Chinese lyrics (given the constraints I had to only extract Traditional Chinese lyrics for now) and consequently, the chinese-to-pinyin and the chinese-to-english. 
